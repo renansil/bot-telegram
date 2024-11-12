@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexPlay Tv</title>
+    <style>
+        /* Estilos conforme sua estrutura original */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            width: 100%;
+            background-color: #1f1f1f;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.5em;
+            color: #ff6f00;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+        .search-bar {
+            margin-top: 70px;
+            width: 100%;
+            max-width: 800px;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+        }
+        .search-bar input {
+            width: 80%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+        }
+        .category-filter {
+            margin: 10px;
+            padding: 10px;
+        }
+        main {
+            margin-top: 80px;
+            padding: 20px;
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .card {
+            background-color: #1f1f1f;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            width: 150px;
+            text-align: center;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 2px solid #ff6f00;
+        }
+        .card-title {
+            font-size: 1em;
+            margin: 10px 0;
+            color: #fff;
+        }
+        .card button {
+            background-color: #ff6f00;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .card button:hover {
+            background-color: #e65c00;
+        }
+        .card-price {
+            font-size: 0.9em;
+            color: #ff6f00;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>FlexPlay</header>
+
+    <!-- Barra de Pesquisa -->
+    <div class="search-bar">
+        <input type="text" id="search" placeholder="Buscar série..." oninput="filterSeries()">
+    </div>
+
+    <!-- Filtro de Categoria -->
+    <div class="category-filter">
+        <label for="category">Filtrar por categoria:</label>
+        <select id="category" onchange="filterSeries()">
+            <option value="all">Todas</option>
+            <option value="acao">Reels</option>
+            <option value="drama">Novelas turcas</option>
+            <option value="comedia">Filmes</option>
+            <!-- Adicione mais categorias conforme necessário -->
+        </select>
+    </div>
+
+    <!-- Catálogo -->
+    <main id="catalog">
+        <!-- Cards serão adicionados automaticamente com JavaScript -->
+    </main>
+
+    <script>
+        // Simulação de dados de séries, cada série tem um ID único
+        const series = [
+            { id: 1, title: "Cego de paixão", category: "acao", image: "static/cego_de_paixao.png", link: "https://t.me/+bcxnk4TBMk80ZGE5" },
+            { id: 2, title: "Você será meu amor novamente", category: "drama", image: "static/voce_sera_meu_amor.png", link: "https://t.me/GrupoSerie2" },
+            { id: 3, title: "A CEO Secreta", category: "comedia", image: "https://via.placeholder.com/150x200", link: "https://t.me/GrupoSerie3" },
+            { id: 4, title: "A princesa e general", category: "acao", image: "static/cego_de_paixao.png", link: "https://t.me/+bcxnk4TBMk80ZGE5" },
+            { id: 5, title: "A vida dupla do meu marido bilionário", category: "drama", image: "static/voce_sera_meu_amor.png", link: "https://t.me/GrupoSerie2" },
+            { id: 6, title: "Caminho para a liberdade", category: "comedia", image: "https://via.placeholder.com/150x200", link: "https://t.me/GrupoSerie3" },
+            // Adicione mais séries aqui
+        ];
+
+        // Variável de controle de carregamento
+        let displayedSeriesCount = 0;
+        const batchSize = 10;
+
+        function loadMoreSeries() {
+            const catalog = document.getElementById('catalog');
+            const limit = Math.min(displayedSeriesCount + batchSize, series.length);
+
+            for (let i = displayedSeriesCount; i < limit; i++) {
+                const serie = series[i];
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.innerHTML = `
+                    <img src="${serie.image}" alt="Poster de ${serie.title}">
+                    <div class="card-title">${serie.title}</div>
+                    <div class="card-price">R$ 8,00</div>
+                    <form action="/pagar" method="post">
+                        <input type="hidden" name="serie_id" value="${serie.id}">
+                        <input type="hidden" name="serie_link" value="${serie.link}">
+                        <button type="submit">COMPRAR</button>
+                    </form>
+                `;
+                catalog.appendChild(card);
+            }
+            displayedSeriesCount = limit;
+        }
+
+        function filterSeries() {
+            const searchTerm = document.getElementById("search").value.toLowerCase();
+            const selectedCategory = document.getElementById("category").value;
+
+            // Limpa o catálogo e reseta contagem
+            document.getElementById('catalog').innerHTML = "";
+            displayedSeriesCount = 0;
+
+            const filteredSeries = series.filter(serie => {
+                const matchesCategory = selectedCategory === 'all' || serie.category === selectedCategory;
+                const matchesSearch = serie.title.toLowerCase().includes(searchTerm);
+                return matchesCategory && matchesSearch;
+            });
+
+            loadFilteredSeries(filteredSeries);
+        }
+
+        function loadFilteredSeries(filteredSeries) {
+            const catalog = document.getElementById('catalog');
+            const limit = Math.min(displayedSeriesCount + batchSize, filteredSeries.length);
+
+            for (let i = displayedSeriesCount; i < limit; i++) {
+                const serie = filteredSeries[i];
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.innerHTML = `
+                    <img src="${serie.image}" alt="Poster de ${serie.title}">
+                    <div class="card-title">${serie.title}</div>
+                    <button onclick="window.location.href='${serie.link}'">Assistir</button>
+                `;
+                catalog.appendChild(card);
+            }
+            displayedSeriesCount = limit;
+        }
+
+        // Inicializa com o primeiro carregamento
+        loadMoreSeries();
+
+        // Rolagem Infinita
+        window.addEventListener("scroll", () => {
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+                loadMoreSeries();
+            }
+        });
+    </script>
+</body>
+</html>
