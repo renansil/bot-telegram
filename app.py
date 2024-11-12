@@ -133,5 +133,4 @@ def iniciar_pagamento():
 if __name__ == "__main__":
     create_db()  # Cria o banco de dados ao iniciar o app
     threading.Thread(target=lambda: bot.infinity_polling()).start()
-    app.run(port=5000)
 
