@@ -130,11 +130,19 @@ def iniciar_pagamento():
     else:
         return "Erro: Nenhum usuário encontrado.", 400
 
+# Endpoint do Webhook
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    json_str = request.get_data().decode('UTF-8')
+    update = telebot.types.Update.de_json(json_str)  # Converte a atualização recebida do Telegram em um objeto
+    bot.process_new_updates([update])  # Processa a atualização através do bot
+    return '', 200  # Retorna um status de sucesso para o Telegram
+
 if __name__ == "__main__":
     create_db()  # Cria o banco de dados ao iniciar o app
 
     # Configuração do Webhook
-    WEBHOOK_URL = "https://bot-telegram-production-25b9.up.railway.app"  # Substitua pelo seu domínio do Railway ou onde o Flask estiver hospedado
+    WEBHOOK_URL = "https://bot-telegram-production-25b9.up.railway.app/webhook"  # Substitua pelo seu domínio do Railway ou onde o Flask estiver hospedado
     bot.remove_webhook()  # Remove webhook anterior, se houver
     bot.set_webhook(url=WEBHOOK_URL)  # Define o webhook com o URL do seu servidor
 
