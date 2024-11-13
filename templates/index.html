@@ -132,10 +132,10 @@
         const series = [
             { id: 1, title: "Cego de paixão", category: "acao", image: "static/cego_de_paixao.png", link: "https://t.me/+bcxnk4TBMk80ZGE5" },
             { id: 2, title: "Você será meu amor novamente", category: "drama", image: "static/voce_sera_meu_amor.png", link: "https://t.me/GrupoSerie2" },
-            { id: 3, title: "A CEO Secreta", category: "comedia", image: "https://via.placeholder.com/150x200", link: "https://t.me/GrupoSerie3" },
-            { id: 4, title: "A princesa e general", category: "acao", image: "static/cego_de_paixao.png", link: "https://t.me/+bcxnk4TBMk80ZGE5" },
-            { id: 5, title: "A vida dupla do meu marido bilionário", category: "drama", image: "static/voce_sera_meu_amor.png", link: "https://t.me/GrupoSerie2" },
-            { id: 6, title: "Caminho para a liberdade", category: "comedia", image: "https://via.placeholder.com/150x200", link: "https://t.me/GrupoSerie3" },
+            { id: 3, title: "A CEO Secreta", category: "comedia", image: "static/ceo_secreta.png", link: "https://t.me/GrupoSerie3" },
+            { id: 4, title: "A princesa e general", category: "acao", image: "static/princesa.png", link: "https://t.me/+bcxnk4TBMk80ZGE5" },
+            { id: 5, title: "A vida dupla do meu marido bilionário", category: "drama", image: "static/vida_dupla.png", link: "https://t.me/GrupoSerie2" },
+            { id: 6, title: "Amor à primeira vista", category: "comedia", image: "static/amor_p_vista.png", link: "https://t.me/GrupoSerie3" },
             // Adicione mais séries aqui
         ];
 
@@ -156,10 +156,10 @@
                     <div class="card-title">${serie.title}</div>
                     <div class="card-price">R$ 8,00</div>
                     <form action="/pagar" method="post">
-                        <input type="hidden" name="serie_id" value="${serie.id}">
-                        <input type="hidden" name="serie_link" value="${serie.link}">
+                        <input type="hidden" name="user_id" value="{{ user_id }}">
                         <button type="submit">COMPRAR</button>
                     </form>
+
                 `;
                 catalog.appendChild(card);
             }
