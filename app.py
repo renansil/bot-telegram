@@ -105,7 +105,16 @@ def verificar_pagamento(call):
 
 @app.route('/')
 def index():
-    return "Bot está funcionando com Webhook!"
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT user_id FROM users ORDER BY id DESC LIMIT 1')
+    user_id = cursor.fetchone()
+    conn.close()
+
+    if user_id:
+        return render_template('index.html', user_id=user_id[0])
+    else:
+        return "Erro: Nenhum usuário encontrado.", 400
 
 @app.route('/pagar', methods=['POST'])
 def iniciar_pagamento():
