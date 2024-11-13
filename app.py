@@ -105,16 +105,7 @@ def verificar_pagamento(call):
 
 @app.route('/')
 def index():
-    conn = sqlite3.connect('users.db')
-    cursor = conn.cursor()
-    cursor.execute('SELECT user_id FROM users ORDER BY id DESC LIMIT 1')
-    user_id = cursor.fetchone()
-    conn.close()
-
-    if user_id:
-        return render_template('index.html', user_id=user_id[0])
-    else:
-        return "Erro: Nenhum usuário encontrado.", 400  # Ou redireciona para uma página de erro
+    return "Bot está funcionando com Webhook!"
 
 @app.route('/pagar', methods=['POST'])
 def iniciar_pagamento():
@@ -132,5 +123,13 @@ def iniciar_pagamento():
 
 if __name__ == "__main__":
     create_db()  # Cria o banco de dados ao iniciar o app
-    threading.Thread(target=lambda: bot.infinity_polling()).start()
 
+    # Configuração do Webhook
+    WEBHOOK_URL = "https://bot-telegram-production-25b9.up.railway.app"  # Substitua pelo seu domínio do Railway ou onde o Flask estiver hospedado
+    bot.remove_webhook()  # Remove webhook anterior, se houver
+    bot.set_webhook(url=WEBHOOK_URL)  # Define o webhook com o URL do seu servidor
+
+    print(f"Webhook configurado: {WEBHOOK_URL}")
+
+    # Inicia o Flask
+    app.run(host="0.0.0.0", port=8000)
