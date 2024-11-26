@@ -43,21 +43,7 @@ def save_user_id(user_id):
 def start(message):
     user_id = message.chat.id  # Captura o user_id do usuário
     save_user_id(user_id)  # Armazena o user_id no banco de dados
-
-    # Criação do botão de miniapp
-    keyboard = InlineKeyboardMarkup()
-    btn_miniapp = InlineKeyboardButton(
-        "INICIAR APP", 
-        web_app={"url": "https://bot-telegram-production-25b9.up.railway.app/"}
-    )
-    keyboard.add(btn_miniapp)
-
-    # Envia a mensagem com o botão
-    bot.send_message(
-        user_id, 
-        "Bem-vindo! Clique em INICIAR APP para assistir sua série.", 
-        reply_markup=keyboard
-    )
+    bot.send_message(user_id, "Bem-vindo! Clique em INICIAR APP para assistir sua série.")
 
 def create_payment(value):
     expire = datetime.datetime.now() + datetime.timedelta(days=1)
