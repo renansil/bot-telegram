@@ -71,7 +71,7 @@ def start(message):
     keyboard = InlineKeyboardMarkup()
     button = InlineKeyboardButton(
         "Abrir MiniApp",
-        web_app=WebAppInfo(url="https://brain.net.br/")
+        web_app=WebAppInfo(url="https://bot-telegram-production-bddc.up.railway.app/")
     )
     keyboard.add(button)
     bot.send_message(
@@ -206,7 +206,7 @@ if __name__ == "__main__":
     create_db()  # Cria o banco de dados ao iniciar o app
 
     # Configuração do Webhook
-    WEBHOOK_URL = "https://bot-telegram-production-25b9.up.railway.app/webhook"  # Substitua pelo seu domínio do Railway ou onde o Flask estiver hospedado
+    WEBHOOK_URL = "https://bot-telegram-production-bddc.up.railway.app/webhook"  # Substitua pelo seu domínio do Railway ou onde o Flask estiver hospedado
     bot.remove_webhook()  # Remove webhook anterior, se houver
     bot.set_webhook(url=WEBHOOK_URL)  # Define o webhook com o URL do seu servidor
 
