@@ -1,35 +1,43 @@
-import time
 import threading
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 import datetime
 import mercadopago
 import telebot
 import base64
 from PIL import Image
 from io import BytesIO
-from flask import Flask, redirect, render_template, request
+from flask import Flask, redirect, render_template, request, jsonify
 import sqlite3
 
 # Tokens de acesso
 TOKEN = 'APP_USR-3040450919486654-102317-a8ad886afe0f7bc61c9fe8206eb9884c-1951389235'
-TOKEN_BOT = '7301751226:AAFvHwIBo7LNKWzCZDd6-tIhGsBiWcRBzdM'
+TOKEN_BOT = '7301751226:AAFvHwIBo7LNKWzCZDd6-tIhGsBiWcRBzdM'  # Substitua pelo seu token
 
 # Configuração do SDK e Bot
 sdk = mercadopago.SDK(TOKEN)
 bot = telebot.TeleBot(TOKEN_BOT)
 app = Flask(__name__)
 
-serie_link = 'https://t.me/flexplaytv'
-
-# Função para criar a tabela no banco de dados SQLite
+# Função para criar as tabelas no banco de dados SQLite
 def create_db():
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS users (
                         id INTEGER PRIMARY KEY AUTOINCREMENT, 
                         user_id INTEGER)''')
+    cursor.execute('''CREATE TABLE IF NOT EXISTS series (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                        serie_id INTEGER UNIQUE,
+                        link TEXT)''')
     conn.commit()
     conn.close()
+
+    add_serie_link(1, "https://t.me/+bcxnk4TBMk80ZGE5")
+    add_serie_link(2, "https://t.me/+Gx6irhzoeRoyYmYx")
+    add_serie_link(3, "https://t.me/+WnE-7pM53QI2Yzgx")
+    add_serie_link(4, "https://t.me/+WnE-7pM53QI2Yzgx")
+    add_serie_link(5, "https://t.me/+A4VWFX7QCOUzZDdh")
+    add_serie_link(6, "https://t.me/+55mp_kQOmiwwOThh")
 
 # Função para salvar o user_id no banco de dados
 def save_user_id(user_id):
@@ -39,12 +47,40 @@ def save_user_id(user_id):
     conn.commit()
     conn.close()
 
+# Função para adicionar um link de série ao banco de dados
+def add_serie_link(serie_id, link):
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    cursor.execute('INSERT OR IGNORE INTO series (serie_id, link) VALUES (?, ?)', (serie_id, link))
+    conn.commit()
+    conn.close()
+
+# Função para buscar o link da série no banco de dados
+def get_serie_link(serie_id):
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT link FROM series WHERE serie_id = ?', (serie_id,))
+    link = cursor.fetchone()
+    conn.close()
+    return link[0] if link else None
+
 @bot.message_handler(commands=['start'])
 def start(message):
-    user_id = message.chat.id  # Captura o user_id do usuário
-    save_user_id(user_id)  # Armazena o user_id no banco de dados
-    bot.send_message(user_id, "Bem-vindo! Clique em INICIAR APP para assistir sua série.")
+    user_id = message.chat.id
+    save_user_id(user_id)  # Salva o user_id no banco de dados
+    keyboard = InlineKeyboardMarkup()
+    button = InlineKeyboardButton(
+        "Abrir MiniApp",
+        web_app=WebAppInfo(url="https://brain.net.br/")
+    )
+    keyboard.add(button)
+    bot.send_message(
+        user_id,
+        "Bem-vindo! Clique no botão abaixo para abrir o MiniApp.",
+        reply_markup=keyboard
+    )
 
+# Função para criar pagamento
 def create_payment(value):
     expire = datetime.datetime.now() + datetime.timedelta(days=1)
     expire = expire.strftime("%Y-%m-%dT%-H:%M:%S.000-03:00")
@@ -55,11 +91,15 @@ def create_payment(value):
         "installments": 1,
         "description": 'Descrição',
         "date_of_expiration": f"{expire}",
+        "payer": {
+            "email": 'renansilveira39@gmail.com'
+        }
     }
     result = sdk.payment().create(payment_data)
     return result
 
-def enviar_pagamento(user_id, valor):
+# Função para enviar pagamento
+def enviar_pagamento(user_id, valor, serie_id):
     payment = create_payment(valor)
     pix_copia_cola = payment['response']['point_of_interaction']['transaction_data']['qr_code']
     qr_code_base64 = payment['response']['point_of_interaction']['transaction_data']['qr_code_base64']
@@ -67,6 +107,11 @@ def enviar_pagamento(user_id, valor):
     qr_code = base64.b64decode(qr_code_base64)
     qr_code_img = Image.open(BytesIO(qr_code))
     qrcode_output = qr_code_img.convert('RGB')
+
+    serie_link = get_serie_link(serie_id)
+    if not serie_link:
+        bot.send_message(user_id, "Erro: Série não encontrada.")
+        return
 
     texto = (
         "📸 QR-CODE\n\n"
@@ -78,7 +123,7 @@ def enviar_pagamento(user_id, valor):
     )
 
     keyboard = InlineKeyboardMarkup()
-    btn_pagamento = InlineKeyboardButton("Já paguei!", callback_data=f"pagamento_efetuado_{payment['response']['id']}_{serie_link}")
+    btn_pagamento = InlineKeyboardButton(f"Já paguei!", callback_data=f"pagamento_efetuado_{payment['response']['id']}_{serie_id}")
     keyboard.add(btn_pagamento)
 
     bot.send_photo(user_id, qrcode_output, caption=texto, parse_mode='HTML', reply_markup=keyboard)
@@ -92,14 +137,23 @@ def pagamento_confirmado(payment_id):
 # Callback do botão "Já paguei!"
 @bot.callback_query_handler(func=lambda call: call.data.startswith("pagamento_efetuado_"))
 def verificar_pagamento(call):
-    payment_id, serie_link = call.data.split("_")[2], call.data.split("_")[3]
-    user_id = call.from_user.id
-    if pagamento_confirmado(payment_id):
-        bot.send_message(user_id, "✅ Pagamento Confirmado!\nAcesse sua série aqui:")
-        bot.send_message(user_id, serie_link)
-    else:
-        bot.send_message(user_id, "❌ Pagamento não encontrado. Tente novamente em alguns minutos.")
+    try:
+        payment_id, serie_id = call.data.split("_")[2], int(call.data.split("_")[3])
+        user_id = call.from_user.id
+        if pagamento_confirmado(payment_id):
+            serie_link = get_serie_link(serie_id)
+            if serie_link:
+                bot.send_message(user_id, "✅ Pagamento Confirmado!\nAcesse sua série aqui:")
+                bot.send_message(user_id, serie_link)
+            else:
+                bot.send_message(user_id, "Erro: Link da série não encontrado.")
+        else:
+            bot.send_message(user_id, "❌ Pagamento não encontrado. Tente novamente em alguns minutos.")
+    except Exception as e:
+        bot.send_message(call.from_user.id, "Ocorreu um erro ao verificar o pagamento.")
+        print(f"Erro no callback de pagamento: {e}")
 
+# Página inicial do MiniApp
 @app.route('/')
 def index():
     conn = sqlite3.connect('users.db')
@@ -113,19 +167,32 @@ def index():
     else:
         return "Erro: Nenhum usuário encontrado.", 400
 
-@app.route('/pagar', methods=['POST'])
+# Endpoint para iniciar pagamento
+@app.route('/pagar', methods=['GET','POST'])
 def iniciar_pagamento():
-    conn = sqlite3.connect('users.db')
-    cursor = conn.cursor()
-    cursor.execute('SELECT user_id FROM users ORDER BY id DESC LIMIT 1')
-    user_id = cursor.fetchone()
-    conn.close()
+    try:
+        # Recebe os dados do formulário
+        serie_id = request.form.get('serie_id')
+        
+        # Verifique se o ID da série foi fornecido
+        if not serie_id:
+            return jsonify({"error": "ID da série não fornecido."}), 400
 
-    if user_id:
-        enviar_pagamento(user_id[0], 8)  # Envia o pagamento para o user_id
-        return redirect("https://t.me/flexplaytv_bot")  # Redireciona para o bot
-    else:
-        return "Erro: Nenhum usuário encontrado.", 400
+        # Pega o último usuário no banco
+        conn = sqlite3.connect('users.db')
+        cursor = conn.cursor()
+        cursor.execute('SELECT user_id FROM users ORDER BY id DESC LIMIT 1')
+        user_id = cursor.fetchone()
+        conn.close()
+
+        if user_id:
+            # Converta serie_id para int antes de usar
+            enviar_pagamento(user_id[0], 2, int(serie_id))
+            return jsonify({"message": "Pagamento iniciado com sucesso!"}), 200
+        else:
+            return jsonify({"error": "Nenhum usuário encontrado."}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 # Endpoint do Webhook
 @app.route('/webhook', methods=['POST'])
