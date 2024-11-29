@@ -118,7 +118,6 @@
             <option value="acao">Reels</option>
             <option value="drama">Novelas turcas</option>
             <option value="comedia">Filmes</option>
-            <!-- Adicione mais categorias conforme necessário -->
         </select>
     </div>
 
@@ -136,10 +135,8 @@
             { id: 4, title: "A princesa e general", category: "acao", image: "static/princesa.png", link: "https://t.me/+bcxnk4TBMk80ZGE5" },
             { id: 5, title: "A vida dupla do meu marido bilionário", category: "drama", image: "static/vida_dupla.png", link: "https://t.me/GrupoSerie2" },
             { id: 6, title: "Amor à primeira vista", category: "comedia", image: "static/amor_p_vista.png", link: "https://t.me/GrupoSerie3" },
-            // Adicione mais séries aqui
         ];
 
-        // Variável de controle de carregamento
         let displayedSeriesCount = 0;
         const batchSize = 10;
 
@@ -156,10 +153,9 @@
                     <div class="card-title">${serie.title}</div>
                     <div class="card-price">R$ 8,00</div>
                     <form action="/pagar" method="post">
-                        <input type="hidden" name="user_id" value="{{ user_id }}">
+                        <input type="hidden" name="serie_id" value="${serie.id}">
                         <button type="submit">COMPRAR</button>
                     </form>
-
                 `;
                 catalog.appendChild(card);
             }
@@ -170,7 +166,6 @@
             const searchTerm = document.getElementById("search").value.toLowerCase();
             const selectedCategory = document.getElementById("category").value;
 
-            // Limpa o catálogo e reseta contagem
             document.getElementById('catalog').innerHTML = "";
             displayedSeriesCount = 0;
 
@@ -194,17 +189,19 @@
                 card.innerHTML = `
                     <img src="${serie.image}" alt="Poster de ${serie.title}">
                     <div class="card-title">${serie.title}</div>
-                    <button onclick="window.location.href='${serie.link}'">Assistir</button>
+                    <div class="card-price">R$ 8,00</div>
+                    <form action="/pagar" method="post">
+                        <input type="hidden" name="serie_id" value="${serie.id}">
+                        <button type="submit">COMPRAR</button>
+                    </form>
                 `;
                 catalog.appendChild(card);
             }
             displayedSeriesCount = limit;
         }
 
-        // Inicializa com o primeiro carregamento
         loadMoreSeries();
 
-        // Rolagem Infinita
         window.addEventListener("scroll", () => {
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
                 loadMoreSeries();
