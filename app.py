@@ -96,10 +96,7 @@ def create_payment(value):
         "payment_method_id": 'pix',
         "installments": 1,
         "description": 'Descrição',
-        "date_of_expiration": f"{expire}",
-        "payer": {
-            "email": 'renansilveira39@gmail.com'
-        }
+        "date_of_expiration": f"{expire}"
     }
     result = sdk.payment().create(payment_data)
     return result
@@ -193,7 +190,7 @@ def iniciar_pagamento():
 
         if user_id:
             # Converta serie_id para int antes de usar
-            enviar_pagamento(user_id[0], 2, int(serie_id))
+            enviar_pagamento(user_id[0], 8, int(serie_id))
             return jsonify({"message": "Pagamento iniciado com sucesso!"}), 200
         else:
             return jsonify({"error": "Nenhum usuário encontrado."}), 400
