@@ -96,7 +96,10 @@ def create_payment(value):
         "payment_method_id": 'pix',
         "installments": 1,
         "description": 'Descrição',
-        "date_of_expiration": f"{expire}"
+        "date_of_expiration": f"{expire}",
+        "payer": {
+            "email": 'renansilveira39@gmail.com'
+        }
     }
     result = sdk.payment().create(payment_data)
     return result
