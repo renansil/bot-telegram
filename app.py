@@ -129,8 +129,16 @@ def enviar_pagamento(user_id, valor, serie_id):
     )
 
     keyboard = InlineKeyboardMarkup()
-    btn_pagamento = InlineKeyboardButton(f"Já paguei!", callback_data=f"pagamento_efetuado_{payment['response']['id']}_{serie_id}")
+    btn_pagamento = InlineKeyboardButton(
+        "Já paguei!", 
+        callback_data=f"pagamento_efetuado_{payment['response']['id']}_{serie_id}"
+    )
+    btn_suporte = InlineKeyboardButton(
+        "Suporte", 
+        url="https://t.me/sraadm"
+    )
     keyboard.add(btn_pagamento)
+    keyboard.add(btn_suporte)
 
     bot.send_photo(user_id, qrcode_output, caption=texto, parse_mode='HTML', reply_markup=keyboard)
 
@@ -194,7 +202,7 @@ def iniciar_pagamento():
         if user_id:
             # Converta serie_id para int antes de usar
             enviar_pagamento(user_id[0], 8, int(serie_id))
-            return jsonify({"message": "Pagamento iniciado com sucesso!"}), 200
+            return render_template('checkout.html')
         else:
             return jsonify({"error": "Nenhum usuário encontrado."}), 400
     except Exception as e:
