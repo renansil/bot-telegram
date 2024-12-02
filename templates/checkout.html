@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexPlay Tv</title>
+    <style>
+        /* Estilos conforme sua estrutura original */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            width: 100%;
+            background-color: #1f1f1f;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.5em;
+            color: #ff6f00;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+        .search-bar {
+            margin-top: 70px;
+            width: 100%;
+            max-width: 800px;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+        }
+        .search-bar input {
+            width: 80%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+        }
+        .category-filter {
+            margin: 10px;
+            padding: 10px;
+        }
+        main {
+            margin-top: 80px;
+            padding: 20px;
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .card {
+            background-color: #1f1f1f;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            width: 150px;
+            text-align: center;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 2px solid #ff6f00;
+        }
+        .card-title {
+            font-size: 1em;
+            margin: 10px 0;
+            color: #fff;
+        }
+        .card button {
+            background-color: #ff6f00;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .card button:hover {
+            background-color: #e65c00;
+        }
+        .card-price {
+            font-size: 0.9em;
+            color: #ff6f00;
+            margin: 5px 0;
+        }
+        #confirmation-message {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #ff6f00;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>FlexPlay</header>
+
+    <!-- Barra de Pesquisa -->
+    <div class="search-bar">
+        <input type="text" id="search" placeholder="Buscar série..." oninput="filterSeries()">
+    </div>
+    <!-- Mensagem de Confirmação -->
+    <div id="confirmation-message" style="text-align: justify; margin: 20px; padding: 20px; font-size: 1.2em; color: #ff6f00; background-color: #1f1f1f; border-radius: 10px; line-height: 1.6;">
+        <p style="margin-bottom: 15px;">Obrigado pela compra, seu QR Code foi gerado!</p>
+        <p style="margin-bottom: 15px;">❖ Copie o código Pix ou QR Code</p>
+        <p style="margin-bottom: 15px;">❖ Após pagar, volte ao chat e clique em "Já paguei" para que a gente confirme e libere sua série!</p>
+        <div style="text-align: center; margin-top: 25px;">
+            <img src="static/img.jpg" alt="Pedido enviado" style="width: 200px; height: auto; border-radius: 10px;">
+        </div>
+    </div>
+    <script>
+        // Função para exibir a mensagem de confirmação
+        function showConfirmationMessage() {
+            const messageDiv = document.getElementById('confirmation-message');
+            messageDiv.style.display = 'block';
+        }
+
+        // Exemplo de chamada da função
+        // Simule uma ação que gera a mensagem (como clique em um botão)
+        setTimeout(showConfirmationMessage, 2000); // Exibe a mensagem após 2 segundos para demonstração
+    </script>
+</body>
+</html>
