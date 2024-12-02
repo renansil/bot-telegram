@@ -129,18 +129,36 @@
     <script>
         // Simulação de dados de séries, cada série tem um ID único
         const series = [
-            { id: 1, title: "Cego de paixão", category: "drama", image: "static/cego_de_paixao.png" },
-            { id: 2, title: "Você será meu amor novamente", category: "drama", image: "static/voce_sera_meu_amor.png"},
-            { id: 3, title: "A CEO Secreta", category: "drama", image: "static/ceo_secreta.png"},
-            { id: 4, title: "A princesa e general", category: "drama", image: "static/princesa.png"},
-            { id: 5, title: "A vida dupla do meu marido bilionário", category: "drama", image: "static/vida_dupla.png"},
-            { id: 6, title: "Amor à primeira vista", category: "drama", image: "static/amor_p_vista.png"},
-            { id: 7, title: "Noiva renegada", category: "drama", image: "static/noiva_renegada.jpg"},
-            { id: 8, title: "Nunca serei sua", category: "drama", image: "static/nunca_s_sua.jpg"},
-            { id: 9, title: "Você pertence a mim", category: "drama", image: "static/voce_p_mim.jpg"},
-            { id: 10, title: "Beije-me uma última vez", category: "drama", image: "static/beije_ultima_vez.jpg"},
-            { id: 11, title: "Faça de novo comigo!Meu marido bilionário.", category: "drama", image: "static/faca_novo_comigo.jpg"},
-            { id: 12, title: "Grávida pelo pai do meu EX", category: "drama", image: "static/gravida_pai_ex.jpg"}
+            { id: 1, title: "Cego de paixão", category: "comedia", image: "static/cego_de_paixao.png" },
+            { id: 2, title: "Você será meu amor novamente", category: "drama", image: "static/voce_sera_meu_amor.png" },
+            { id: 3, title: "A CEO Secreta", category: "drama", image: "static/ceo_secreta.png" },
+            { id: 4, title: "A princesa e general", category: "comedia", image: "static/princesa.png" },
+            { id: 5, title: "A vida dupla do meu marido bilionário", category: "drama", image: "static/vida_dupla.png" },
+            { id: 6, title: "Amor à primeira vista", category: "drama", image: "static/amor_p_vista.png" },
+            { id: 7, title: "Noiva renegada", category: "drama", image: "static/noiva_renegada.jpg" },
+            { id: 8, title: "Nunca serei sua", category: "drama", image: "static/nunca_s_sua.jpg" },
+            { id: 9, title: "Você pertence a mim", category: "drama", image: "static/voce_p_mim.jpg" },
+            { id: 10, title: "Beije-me uma última vez", category: "drama", image: "static/beije_ultima_vez.jpg" },
+            { id: 11, title: "Faça de novo comigo! Meu marido bilionário.", category: "drama", image: "static/faca_novo_comigo.jpg" },
+            { id: 12, title: "Grávida pelo pai do meu EX", category: "drama", image: "static/gravida_pai_ex.jpg" },
+            { id: 13, title: "Quebrando o gelo", category: "drama", image: "static/quebrando_gelo.jpg" },
+            { id: 14, title: "O herdeiro perdido: Nas vésperas retomar tudo", category: "comedia", image: "static/herdeiro.jpg" },
+            { id: 15, title: "O par perfeito rejeitado", category: "drama", image: "static/par_perfeito.jpg" },
+            { id: 16, title: "Engravidei do meu EX chefe", category: "drama", image: "static/engravidei_chefe.jpg" },
+            { id: 17, title: "Amor cativo do chefe da máfia", category: "drama", image: "static/amor_cativo.jpg" },
+            { id: 18, title: "100% Destinado ao seu amor", category: "drama", image: "static/100%.jpg" },
+            { id: 19, title: "Destinado a perder: A lua em seus sonhos.", category: "drama", image: "static/destinado.jpg" },
+            { id: 20, title: "Contrato duplo de amor", category: "drama", image: "static/amor.png" },
+            { id: 21, title: "Meu segundo marido é um príncipe encantado", category: "drama", image: "static/meu_segundo.jpg" },
+            { id: 22, title: "Marido é garçom, mas milionário!", category: "drama", image: "static/garcom.jpg" },
+            { id: 23, title: "Amarrada ao meu chefe exigente", category: "drama", image: "static/chefe_exigente.jpg" },
+            { id: 24, title: "A adorável esposa do Sr. Hills", category: "drama", image: "static/hills.jpg" },
+            { id: 25, title: "Adoro o jeito como você mente", category: "drama", image: "static/menti.png" },
+            { id: 26, title: "Uma segunda chance com minha amante secreta", category: "drama", image: "static/chance2.png" },
+            { id: 27, title: "Uma estrela da sorte com 6 anos e meio", category: "comedia", image: "static/estrela.png" },
+            { id: 28, title: "De volta ao coração dela", category: "drama", image: "static/caracao_dela.jpg" },
+            { id: 29, title: "Cair na doce armadilha", category: "drama", image: "static/armadilha.jpg" },
+            { id: 30, title: "A virgem e o bilionário. Hills", category: "drama", image: "static/virgem.jpg" }
         ];
 
         let displayedSeriesCount = 0;
