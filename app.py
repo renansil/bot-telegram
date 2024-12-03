@@ -64,6 +64,16 @@ def create_db():
     add_serie_link(30, "https://t.me/+qskICL7A-28zNWYx")
     add_serie_link(31, "https://t.me/+yA4qrFMeLWJjYmJh")
     add_serie_link(32, "https://t.me/+Y2yYEzXwa3lmZDQx")
+    add_serie_link(33, "https://t.me/+d96AaCy3loVjODkx")
+    add_serie_link(34, "https://t.me/+MntZepNlKJlmMTJh")
+    add_serie_link(35, "https://t.me/+Y3h8bqV7vdJlMGVh")
+    add_serie_link(36, "https://t.me/+PGKRtG-ui8pkZGFh")
+    add_serie_link(37, "https://t.me/+g97Ek47J_bQ3MjUx")
+    add_serie_link(38, "https://t.me/+1U_3xp5bT9VhNzdh")
+    add_serie_link(39, "https://t.me/+aEepldAMIlxlODcx")
+    add_serie_link(40, "https://t.me/+Oqg2T9rnwHQ2MTQx")
+    add_serie_link(41, "https://t.me/+hrcUfWJXy31mYWQx")
+    add_serie_link(42, "https://t.me/+Rb7xJW1CZX8zYjUx")
 
 # Função para salvar o user_id no banco de dados
 def save_user_id(user_id):
