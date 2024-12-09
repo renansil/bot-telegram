@@ -184,7 +184,7 @@
 
         let displayedSeriesCount = 0;
         const batchSize = 10;
-
+        
         function loadMoreSeries() {
             const catalog = document.getElementById('catalog');
             const limit = Math.min(displayedSeriesCount + batchSize, series.length);
@@ -199,6 +199,7 @@
                     <div class="card-price">R$ 8,00</div>
                     <form action="/pagar" method="post" onsubmit="handleSubmit(event)">
                         <input type="hidden" name="serie_id" value="${serie.id}">
+                        <input type="hidden" name="serie_name" value="${serie.title}">
                         <button type="submit">COMPRAR</button>
                     </form>
                 `;
@@ -206,6 +207,7 @@
             }
             displayedSeriesCount = limit;
         }
+
 
         function handleSubmit(event) {
             event.preventDefault();
@@ -258,6 +260,7 @@
                     <div class="card-price">R$ 8,00</div>
                     <form action="/pagar" method="post" onsubmit="handleSubmit(event)">
                         <input type="hidden" name="serie_id" value="${serie.id}">
+                        <input type="hidden" name="serie_name" value="${serie.title}">
                         <button type="submit">COMPRAR</button>
                     </form>
                 `;
