@@ -143,7 +143,7 @@ def create_payment(value):
     return result
 
 # Função para enviar pagamento
-def enviar_pagamento(user_id, valor, serie_id):
+def enviar_pagamento(user_id, valor, serie_id, serie_name):
     payment = create_payment(valor)
     pix_copia_cola = payment['response']['point_of_interaction']['transaction_data']['qr_code']
     qr_code_base64 = payment['response']['point_of_interaction']['transaction_data']['qr_code_base64']
@@ -158,7 +158,7 @@ def enviar_pagamento(user_id, valor, serie_id):
         return
 
     texto = (
-        "📸 QR-CODE\n\n"
+        f"📸 QR-CODE para a série: <b>{serie_name}</b>\n\n"
         "💰 Valor a Pagar: R$ 8\n"
         "⏳ Prazo Para Pagamento: 15 Minutos\n\n"
         "💠 Pix Copia e cola:\n\n"
@@ -179,7 +179,7 @@ def enviar_pagamento(user_id, valor, serie_id):
     keyboard.add(btn_suporte)
 
     bot.send_photo(user_id, qrcode_output, caption=texto, parse_mode='HTML', reply_markup=keyboard)
-
+    
 # Verifica o status do pagamento
 def pagamento_confirmado(payment_id):
     payment = sdk.payment().get(payment_id)
@@ -220,15 +220,15 @@ def index():
         return "Erro: Nenhum usuário encontrado.", 400
 
 # Endpoint para iniciar pagamento
-@app.route('/pagar', methods=['GET','POST'])
+@app.route('/pagar', methods=['POST'])
 def iniciar_pagamento():
     try:
         # Recebe os dados do formulário
         serie_id = request.form.get('serie_id')
+        serie_name = request.form.get('serie_name')  # Captura o nome da série
         
-        # Verifique se o ID da série foi fornecido
-        if not serie_id:
-            return jsonify({"error": "ID da série não fornecido."}), 400
+        if not serie_id or not serie_name:
+            return jsonify({"error": "Dados da série incompletos."}), 400
 
         # Pega o último usuário no banco
         conn = sqlite3.connect('users.db')
@@ -238,14 +238,13 @@ def iniciar_pagamento():
         conn.close()
 
         if user_id:
-            # Converta serie_id para int antes de usar
-            enviar_pagamento(user_id[0], 8, int(serie_id))
+            enviar_pagamento(user_id[0], 8, int(serie_id), serie_name)  # Passa o nome da série
             return render_template('checkout.html')
         else:
             return jsonify({"error": "Nenhum usuário encontrado."}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
+        
 # Endpoint do Webhook
 @app.route('/webhook', methods=['POST'])
 def webhook():
