@@ -224,7 +224,7 @@ def index():
         return "Erro: Nenhum usuário encontrado.", 400
 
 # Endpoint para iniciar pagamento
-@app.route('/pagar', methods=['POST'])
+@app.route('/pagar', methods=['GET','POST'])
 def iniciar_pagamento():
     try:
         # Recebe os dados do formulário
