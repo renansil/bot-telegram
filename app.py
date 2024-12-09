@@ -120,7 +120,7 @@ def start(message):
     keyboard.add(button)
     bot.send_message(
         user_id,
-        "Bem-vindo! Clique no botão abaixo para abrir o MiniApp.",
+        "Bem-vindo! inicie o app com comando /start Clique no botão abaixo para abrir o MiniApp.",
         reply_markup=keyboard
     )
 
