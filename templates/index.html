@@ -101,6 +101,7 @@
             margin: 5px 0;
         }
     </style>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
     <header>FlexPlay</header>
@@ -146,7 +147,7 @@
             { id: 15, title: "O par perfeito rejeitado", category: "drama", image: "static/par_perfeito.jpg" },
             { id: 16, title: "Engravidei do meu EX chefe", category: "drama", image: "static/engravidei_chefe.jpg" },
             { id: 17, title: "Amor cativo do chefe da máfia", category: "drama", image: "static/amor_cativo.jpg" },
-            { id: 18, title: "100% Destinado ao seu amor", category: "drama", image: "static/destinadoaoamor.jpg" },
+            { id: 18, title: "100% Destinado ao seu amor", category: "drama", image: "static/100%.jpg" },
             { id: 19, title: "Destinado a perder: A lua em seus sonhos.", category: "drama", image: "static/destinado.jpg" },
             { id: 20, title: "Contrato duplo de amor", category: "drama", image: "static/amor.png" },
             { id: 21, title: "Meu segundo marido é um príncipe encantado", category: "drama", image: "static/meu_segundo.jpg" },
@@ -196,7 +197,7 @@
                     <img src="${serie.image}" alt="Poster de ${serie.title}">
                     <div class="card-title">${serie.title}</div>
                     <div class="card-price">R$ 8,00</div>
-                    <form action="/pagar" method="post">
+                    <form action="/pagar" method="post" onsubmit="handleSubmit(event)">
                         <input type="hidden" name="serie_id" value="${serie.id}">
                         <button type="submit">COMPRAR</button>
                     </form>
@@ -204,6 +205,27 @@
                 catalog.appendChild(card);
             }
             displayedSeriesCount = limit;
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+
+            const formData = new FormData(form);
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => {
+                if (response.ok) {
+                    Telegram.WebApp.close(); // Fecha o MiniApp após sucesso
+                } else {
+                    alert("Erro ao processar o pagamento. Tente novamente.");
+                }
+            })
+            .catch(() => {
+                alert("Erro de conexão. Verifique sua internet e tente novamente.");
+            });
         }
 
         function filterSeries() {
@@ -234,7 +256,7 @@
                     <img src="${serie.image}" alt="Poster de ${serie.title}">
                     <div class="card-title">${serie.title}</div>
                     <div class="card-price">R$ 8,00</div>
-                    <form action="/pagar" method="post">
+                    <form action="/pagar" method="post" onsubmit="handleSubmit(event)">
                         <input type="hidden" name="serie_id" value="${serie.id}">
                         <button type="submit">COMPRAR</button>
                     </form>
