@@ -168,11 +168,11 @@ def enviar_pagamento(user_id, valor, serie_id, serie_name):
 
     keyboard = InlineKeyboardMarkup()
     btn_pagamento = InlineKeyboardButton(
-        "Já paguei!", 
+        "⌛ JÁ PAGUEI! ⌛", 
         callback_data=f"pagamento_efetuado_{payment['response']['id']}_{serie_id}"
     )
     btn_suporte = InlineKeyboardButton(
-        "Suporte", 
+        "FALAR COM SUPORTE", 
         url="https://t.me/sraadm"
     )
     keyboard.add(btn_pagamento)
