@@ -24,11 +24,21 @@ def create_db():
     cursor = conn.cursor()
     cursor.execute('''CREATE TABLE IF NOT EXISTS users (
                         id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                        user_id INTEGER)''')
-    cursor.execute('''CREATE TABLE IF NOT EXISTS series (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                        serie_id INTEGER UNIQUE,
-                        link TEXT)''')
+                        user_id INTEGER UNIQUE,
+                        joined_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP)''')
+    cursor.execute('''CREATE TABLE IF NOT EXISTS payments (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        user_id INTEGER,
+                        serie_id INTEGER,
+                        amount REAL,
+                        status TEXT,
+                        payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        FOREIGN KEY (user_id) REFERENCES users(user_id))''')
+    cursor.execute('''CREATE TABLE IF NOT EXISTS abandonment (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        user_id INTEGER,
+                        abandonment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        FOREIGN KEY (user_id) REFERENCES users(user_id))''')
     conn.commit()
     conn.close()
 
@@ -86,6 +96,8 @@ def create_db():
     add_serie_link(52, "https://t.me/+PljB6zYRXTI5YjEx")
     add_serie_link(53, "https://t.me/+Nj7nYLsMmIxhODFh")
     add_serie_link(54, "https://t.me/+AIwaqlg21_dkN2Qx")
+    add_serie_link(55, "https://t.me/+TkGfNDzBiD8wZDJh")
+    add_serie_link(56, "https://t.me/+UL6kCjUVvnpkY2Fh")
 
 # Função para salvar o user_id no banco de dados
 def save_user_id(user_id):
