@@ -127,19 +127,18 @@ def get_serie_link(serie_id):
 @bot.message_handler(commands=['start'])
 def start(message):
     user_id = message.chat.id
-    
-    # Salva o user_id no banco de dados (opcional, dependendo do seu caso)
-    save_user_id(user_id)
-
-    # Configura o botão no menu principal para abrir o MiniApp
-    try:
-        menu_button = MenuButtonWebApp(
-            text="Abrir MiniApp",  # Texto exibido no botão
-            web_app=WebAppInfo(url="https://bot-telegram-production-bddc.up.railway.app/")
-        )
-        bot.set_chat_menu_button(chat_id=user_id, menu_button=menu_button)
-    except Exception as e:
-        print(f"Erro ao configurar o menu: {e}")
+    save_user_id(user_id)  # Salva o user_id no banco de dados
+    keyboard = InlineKeyboardMarkup()
+    button = InlineKeyboardButton(
+        "Abrir MiniApp",
+        web_app=WebAppInfo(url="https://bot-telegram-production-bddc.up.railway.app/")
+    )
+    keyboard.add(button)
+    bot.send_message(
+        user_id,
+        "Bem-vindo! inicie o app com comando /start Clique no botão abaixo para abrir o MiniApp.",
+        reply_markup=keyboard
+    )
 
 # Função para criar pagamento
 def create_payment(value):
