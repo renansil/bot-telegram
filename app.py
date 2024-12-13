@@ -130,7 +130,7 @@ def start(message):
     save_user_id(user_id)  # Salva o user_id no banco de dados
     keyboard = InlineKeyboardMarkup()
     button = InlineKeyboardButton(
-        "Abrir MiniApp",
+        text="Abrir MiniApp",
         web_app=WebAppInfo(url="https://bot-telegram-production-bddc.up.railway.app/")
     )
     keyboard.add(button)
