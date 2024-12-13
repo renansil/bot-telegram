@@ -1,5 +1,5 @@
 import threading
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo,MenuButtonWebApp
 import datetime
 import mercadopago
 import telebot
@@ -127,18 +127,16 @@ def get_serie_link(serie_id):
 @bot.message_handler(commands=['start'])
 def start(message):
     user_id = message.chat.id
-    save_user_id(user_id)  # Salva o user_id no banco de dados
-    keyboard = InlineKeyboardMarkup()
-    button = InlineKeyboardButton(
+    
+    # Salva o user_id no banco de dados
+    save_user_id(user_id)
+    
+    # Configura o Menu Principal para abrir o MiniApp
+    menu_button = MenuButtonWebApp(
         text="Abrir MiniApp",
         web_app=WebAppInfo(url="https://bot-telegram-production-bddc.up.railway.app/")
     )
-    keyboard.add(button)
-    bot.send_message(
-        user_id,
-        "Bem-vindo! inicie o app com comando /start Clique no botão abaixo para abrir o MiniApp.",
-        reply_markup=keyboard
-    )
+    bot.set_chat_menu_button(chat_id=user_id, menu_button=menu_button)
 
 # Função para criar pagamento
 def create_payment(value):
