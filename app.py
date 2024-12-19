@@ -133,11 +133,12 @@ def start(message):
         "Abrir MiniApp",
         web_app=WebAppInfo(url="https://bot-telegram-production-bddc.up.railway.app/")
     )
-    keyboard.add(button)
+    # Adicionando os botões ao teclado
+    markup.add(button)
     bot.send_message(
         user_id,
         "Bem-vindo! inicie o app com comando /start Clique no botão abaixo para abrir o MiniApp.",
-        reply_markup=keyboard
+        reply_markup=markup
     )
 
 # Função para criar pagamento
