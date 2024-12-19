@@ -130,9 +130,9 @@ def start(message):
     user_id = message.chat.id
     save_user_id(user_id)  # Salva o user_id no banco de dados
     
-    # Criando o teclado inline
-    markup = InlineKeyboardMarkup()
-    button = InlineKeyboardButton(
+    # Criando os botões
+    markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    button = KeyboardButton(
         "Abrir MiniApp",
         web_app=WebAppInfo(url="https://bot-telegram-production-bddc.up.railway.app/")
     )
