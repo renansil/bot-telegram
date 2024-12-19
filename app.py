@@ -1,5 +1,6 @@
 import threading
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo,MenuButtonWebApp
+from telebot.types import ReplyKeyboardMarkup, KeyboardButton
 import datetime
 import mercadopago
 import telebot
