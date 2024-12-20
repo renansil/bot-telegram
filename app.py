@@ -182,7 +182,7 @@ def enviar_pagamento(user_id, valor, serie_id, serie_name):
 
     texto = (
         f"📸 QR-CODE para a série: <b>{serie_name}</b>\n\n"
-        "💰 Valor a Pagar: R$ 8\n"
+        "💰 Valor a Pagar: R$ 4\n"
         "⏳ Prazo Para Pagamento: 15 Minutos\n\n"
         "💠 Pix Copia e cola:\n\n"
         "👇👇\n"
@@ -261,7 +261,7 @@ def iniciar_pagamento():
         conn.close()
 
         if user_id:
-            enviar_pagamento(user_id[0], 8, int(serie_id), serie_name)  # Passa o nome da série
+            enviar_pagamento(user_id[0], 4, int(serie_id), serie_name)  # Passa o nome da série e o valor 
             return render_template('checkout.html')
         else:
             return jsonify({"error": "Nenhum usuário encontrado."}), 400
