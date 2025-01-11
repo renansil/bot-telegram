@@ -198,7 +198,7 @@ def enviar_pagamento(user_id, valor, serie_id, serie_name):
     )
     btn_suporte = InlineKeyboardButton(
         "FALAR COM SUPORTE", 
-        url="https://t.me/sraadm"
+        url="https://t.me/topcineshow"
     )
     keyboard.add(btn_pagamento)
     keyboard.add(btn_suporte)
