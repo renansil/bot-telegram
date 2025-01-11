@@ -11,8 +11,8 @@ from flask import Flask, redirect, render_template, request, jsonify
 import sqlite3
 
 # Tokens de acesso
-TOKEN = 'APP_USR-3040450919486654-102317-a8ad886afe0f7bc61c9fe8206eb9884c-1951389235'
-TOKEN_BOT = '7301751226:AAFvHwIBo7LNKWzCZDd6-tIhGsBiWcRBzdM'  # Substitua pelo seu token
+TOKEN = 'APP_USR-2933594072261603-011110-5cb8766c8c8f525b04358711d698d9af-265043238'
+TOKEN_BOT = '7564530509:AAEZUCGReSfCMBMVTqATYx3PCGg5Xe-ztJc'  # Substitua pelo seu token
 
 # Configuração do SDK e Bot
 sdk = mercadopago.SDK(TOKEN)
