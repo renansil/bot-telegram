@@ -263,7 +263,7 @@ def iniciar_pagamento():
         conn.close()
 
         if user_id:
-            enviar_pagamento(user_id[0], 8, int(serie_id), serie_name)  # Passa o nome da série e o valor 
+            enviar_pagamento(user_id[0], 5, int(serie_id), serie_name)  # Passa o nome da série e o valor 
             return render_template('checkout.html')
         else:
             return jsonify({"error": "Nenhum usuário encontrado."}), 400
