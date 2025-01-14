@@ -184,7 +184,7 @@ def enviar_pagamento(user_id, valor, serie_id, serie_name):
 
     texto = (
         f"📸 QR-CODE para a série: <b>{serie_name}</b>\n\n"
-        "💰 Valor a Pagar: R$ 8\n"
+        "💰 Valor a Pagar: R$ 5\n"
         "⏳ Prazo Para Pagamento: 15 Minutos\n\n"
         "💠 Pix Copia e cola:\n\n"
         "👇👇\n"
