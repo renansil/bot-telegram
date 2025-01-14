@@ -282,11 +282,19 @@ if __name__ == "__main__":
     create_db()  # Cria o banco de dados ao iniciar o app
 
     # Configuração do Webhook
-    WEBHOOK_URL = "https://bot-telegram-production-65a1.up.railway.app/webhook"  # Substitua pelo seu domínio do Railway ou onde o Flask estiver hospedado
-    bot.remove_webhook()  # Remove webhook anterior, se houver
-    bot.set_webhook(url=WEBHOOK_URL)  # Define o webhook com o URL do seu servidor
+    WEBHOOK_URL = "https://bot-telegram-production-65a1.up.railway.app/webhook"  # Substitua pelo domínio do Railway ou onde o Flask estiver hospedado
 
-    print(f"Webhook configurado: {WEBHOOK_URL}")
+    # Decida dinamicamente entre Webhook e Polling
+    USE_WEBHOOK = True  # Altere para False para usar polling em vez de webhook
 
-    # Inicia o Flask
-    app.run(host="0.0.0.0", port=8000)
+    if USE_WEBHOOK:
+        bot.remove_webhook()  # Remove webhook anterior, se houver
+        bot.set_webhook(url=WEBHOOK_URL)  # Define o webhook com o URL do servidor
+        print(f"Webhook configurado: {WEBHOOK_URL}")
+        
+        # Inicia o servidor Flask
+        app.run(host="0.0.0.0", port=8000)
+    else:
+        bot.remove_webhook()  # Certifique-se de que o webhook está desativado
+        print("Iniciando bot com polling...")
+        bot.infinity_polling()
