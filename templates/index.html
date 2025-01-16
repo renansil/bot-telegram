@@ -11,6 +11,7 @@
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #121212;
@@ -19,17 +20,19 @@
             flex-direction: column;
             align-items: center;
         }
+
         header {
             width: 100%;
             background-color: #1f1f1f;
             padding: 15px;
             text-align: center;
             font-size: 1.5em;
-            color: #ff6f00;
+            color: #c00000;
             position: fixed;
             top: 0;
             z-index: 1000;
         }
+
         .search-bar {
             margin-top: 70px;
             width: 100%;
@@ -38,6 +41,7 @@
             display: flex;
             justify-content: center;
         }
+
         .search-bar input {
             width: 80%;
             padding: 10px;
@@ -45,10 +49,12 @@
             border: 1px solid #ccc;
             font-size: 1em;
         }
+
         .category-filter {
             margin: 10px;
             padding: 10px;
         }
+
         main {
             margin-top: 80px;
             padding: 20px;
@@ -59,6 +65,7 @@
             justify-content: center;
             gap: 15px;
         }
+
         .card {
             background-color: #1f1f1f;
             border-radius: 10px;
@@ -68,22 +75,26 @@
             overflow: hidden;
             transition: transform 0.2s;
         }
+
         .card:hover {
             transform: scale(1.05);
         }
+
         .card img {
             width: 100%;
             height: 200px;
             object-fit: cover;
-            border-bottom: 2px solid #ff6f00;
+            border-bottom: 2px solid #c00000;
         }
+
         .card-title {
             font-size: 1em;
             margin: 10px 0;
             color: #fff;
         }
+
         .card button {
-            background-color: #ff6f00;
+            background-color: #c00000;
             color: #fff;
             border: none;
             padding: 8px 12px;
@@ -92,12 +103,14 @@
             border-radius: 4px;
             transition: background-color 0.3s;
         }
+
         .card button:hover {
-            background-color: #e65c00;
+            background-color: #c00000;
         }
+
         .card-price {
             font-size: 0.9em;
-            color: #ff6f00;
+            color: #c00000;
             margin: 5px 0;
         }
     </style>
@@ -131,6 +144,10 @@
     <script>
         // Simulação de dados de séries, cada série tem um ID único
         const series = [
+            { id: 62, title: "A COMPANHEIRA DESTINADA DO ALFA", category: "drama", image: "static/acompanhantealfa.png" },
+            { id: 61, title: "Meu Deus, dormi com meu chefe", category: "drama", image: "static/meuchefe.png" },
+            { id: 60, title: "MY FLASH MARRIAGE WITH THE BOSS / MEU CASAMENTO FLASH COM O CHEFE", category: "drama", image: "static/boss.png" },
+            { id: 59, title: "Viciado nela: A querida mimada do ceo", category: "drama", image: "static/mimidadoceo.png" },
             { id: 58, title: "Você tem um homem", category: "drama", image: "static/homem.png" },
             { id: 57, title: "Mufasa-O rei Leão", category: "acao", image: "static/mufasa.png" },
             { id: 56, title: "A Chefa não finge mais", category: "drama", image: "static/chefanao.png" },
