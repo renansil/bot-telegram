@@ -140,7 +140,7 @@ def start(message):
     markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     button = KeyboardButton(
         "Abrir MiniApp",
-        web_app=WebAppInfo(url="https://bot-telegram-production-65a1.up.railway.app/")
+        web_app=WebAppInfo(url="https://bot-telegram-production-af28.up.railway.app/")
     )
     
     # Adicionando o botão ao teclado
