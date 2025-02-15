@@ -11,7 +11,7 @@ from flask import Flask, redirect, render_template, request, jsonify
 import sqlite3
 
 # Tokens de acesso
-TOKEN = 'APP_USR-3040450919486654-102317-a8ad886afe0f7bc61c9fe8206eb9884c-1951389235'
+TOKEN = 'APP_USR-5844600626489892-021511-eaf07748b134cc2d3d693a2825d0234c-186245838'
 TOKEN_BOT = '8193140436:AAEh7MLrnP23qIALktvkuHyirSXnO4JIiOw'  # Substitua pelo seu token
 
 # Configuração do SDK e Bot
